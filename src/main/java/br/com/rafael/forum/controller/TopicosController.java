@@ -31,10 +31,10 @@ import br.com.rafael.forum.repository.TopicoRepository;
 @RequestMapping("/topicos")
 @RestController
 public class TopicosController {
-	
+
 	@Autowired
 	private TopicoRepository topicoRepository;
-	
+
 	@Autowired
 	private CursoRepository cursoRepository;
 
@@ -47,35 +47,46 @@ public class TopicosController {
 		List<Topico> topicos = topicoRepository.findByCursoNome(nomeCurso);
 		return TopicoDto.converter(topicos);
 	}
-	 
+
 	@PostMapping()
 	@Transactional
 	public ResponseEntity<TopicoDto> cadastrar(@RequestBody @Valid TopicoForm form, UriComponentsBuilder uriBuilder) {
 		Topico topico = form.converter(cursoRepository);
 		topicoRepository.save(topico);
-		
+
 		URI uri = uriBuilder.path("/topicos/{id}").buildAndExpand(topico.getId()).toUri();
 		return ResponseEntity.created(uri).body(new TopicoDto(topico));
 	}
-	
+
 	@GetMapping("/{id}")
-	public DetalhesDoTopicoDto detalhar(@PathVariable Long id) {
-		Topico Topico = topicoRepository.getById(id);
-		return new DetalhesDoTopicoDto(Topico);
+	public ResponseEntity<DetalhesDoTopicoDto> detalhar(@PathVariable Long id) {
+		Optional<Topico> topico = topicoRepository.findById(id);
+		if (topico.isPresent()) {
+			return ResponseEntity.ok(new DetalhesDoTopicoDto(topico.get()));
+		}
+
+		return ResponseEntity.notFound().build();
 	}
-	
+
 	@PutMapping("/{id}")
 	@Transactional
 	public ResponseEntity<TopicoDto> atualizar(@PathVariable Long id, @RequestBody @Valid AtualizacaoTopicoForm form) {
-		Topico topico = form.atualizar(id, topicoRepository);
-		
-		return ResponseEntity.ok(new TopicoDto(topico));
+		Optional<Topico> topicoOptional = topicoRepository.findById(id);
+		if (topicoOptional.isPresent()) {
+			Topico topico = form.atualizar(id, topicoRepository);
+			return ResponseEntity.ok(new TopicoDto(topicoOptional.get()));
+		}
+		return ResponseEntity.notFound().build();
 	}
-	
+
 	@DeleteMapping("/{id}")
 	@Transactional
 	public ResponseEntity<?> remover(@PathVariable Long id) {
-		topicoRepository.deleteById(id);
-		return ResponseEntity.ok().build();
+		Optional<Topico> topicoOptional = topicoRepository.findById(id);
+		if (topicoOptional.isPresent()) {
+			topicoRepository.deleteById(id);
+			return ResponseEntity.ok().build();
+		}
+		return ResponseEntity.notFound().build();
 	}
 }
