@@ -9,13 +9,13 @@ import br.com.rafael.forum.modelo.Topico;
 public class TopicoDto {
 
 	private Long id;
-	
+
 	private String titulo;
-	
+
 	private String mensagem;
-	
+
 	private LocalDateTime dataCriacao;
-	
+
 	public TopicoDto(Topico topico) {
 		this.id = topico.getId();
 		this.titulo = topico.getTitulo();
@@ -40,12 +40,8 @@ public class TopicoDto {
 	}
 
 	public static List<TopicoDto> converter(List<Topico> topicos) {
-		
+
 		return topicos.stream().map(TopicoDto::new).collect(Collectors.toList());
 	}
 
-
-	
-	
-	
 }
