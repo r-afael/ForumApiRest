@@ -24,8 +24,8 @@ Para buildar e rodar a aplicação, você irá precisar de:
 
 ## Acesso
 
-*Para acessar o projeto, visite:*
-https://rafael-forum.herokuapp.com/
+*Para acessar o projeto, faça requests para:*
+https://rafael-forum.herokuapp.com/topicos
 
 *Para obter a documentação completa da API, acesse:*
  https://rafael-forum.herokuapp.com/swagger-ui/index.html
