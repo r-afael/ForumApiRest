@@ -35,6 +35,6 @@ https://rafael-forum.herokuapp.com/topicos
 Para fazer o deploy desse projeto, execute o seguinte comando
 
 ```bash
-  docker run  -e SPRING_PROFILES_ACTIVE='prod' -p 8080:8080 -e FORUM_DATABASE_URL='jdbc:h2:mem:alura-forum' -e FORUM_DATABASE_USERNAME='sa' -e FORUM_DATABASE_PASSWORD='' -e FORUM_JWT_SECRET='123456' rafael/forum
+  docker run  -e SPRING_PROFILES_ACTIVE='prod' -p 8080:8080 -e FORUM_DATABASE_URL='jdbc:h2:mem:rafael-forum' -e FORUM_DATABASE_USERNAME='sa' -e FORUM_DATABASE_PASSWORD='' -e FORUM_JWT_SECRET='123456' rafael/forum
 ```
 
